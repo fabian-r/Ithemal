@@ -20,14 +20,18 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
         unzip                       \
         vim                         \
         wget                        \
-        zip
+        zip                         \
+        python3                     \
+        python3-pip
+
+RUN pip3 install rpyc
 
 # install mysql
 RUN wget -O /tmp/RPM-GPG-KEY-mysql https://repo.mysql.com/RPM-GPG-KEY-mysql && \
         apt-key add /tmp/RPM-GPG-KEY-mysql && \
         /bin/echo -e "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7\ndeb-src http://repo.mysql.com/apt/debian/ stretch mysql-5.7" > /etc/apt/sources.list.d/mysql.list && \
         apt-get update && \
-        DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
+        DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-unauthenticated mysql-server
 
 COPY docker_my.cnf /etc/my.cnf
 

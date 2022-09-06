@@ -1,4 +1,25 @@
 
+# Fork Description
+
+Ithemal is intended to be run as a docker container.
+We have adjusted this version to have means of communicating prediction results from inside of the docker container to the outside world via [RPyC](https://rpyc.readthedocs.io/).
+
+Ideally, everything that ever needs to be done with this is done through the convenient shortcut scripts in the top-level directory:
+
+  - `./build.sh` builds the docker container (this might take a while, but only needs to be done once).
+  - `./start.sh` starts the built docker container. This needs to be done whenever you want to use the container and it has not been started since system reboot or it has been stopped.
+  - `./stop.sh` stops the started docker container.
+
+If anything with this setup fails, a fix will probably require doing things in `Ithemal/docker`, particular candidates are the `Dockerfile` and `docker_compose.yml`.
+When the container is running, you can use `docker/docker_connect.sh` to open a tmux session inside the container.
+
+Besides adding these scripts and the outside interface, we also needed some slight adjustments to the docker scripts.
+Of particular note is that updating pytorch to 1.2.0 was necessary for the Ithemal container to work within a VM on a modern AMD system (because of a bug in a version of a library used in pytorch 1.1.0).
+
+Addiditionally, we added the provided models for Ithemal from [the corresponding repository](https://github.com/ithemal/Ithemal-models).
+
+----
+
 # Overview
 
 Ithemal is a data driven model for predicting throughput of a basic block of x86-64 instructions.
